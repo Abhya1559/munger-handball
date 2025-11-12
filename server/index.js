@@ -2,11 +2,13 @@ import express from "express";
 import sqlDetails, { connectDB } from "./config/db.js";
 import playerRouter from "./routes/player.route.js";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 const PORT = 5000;
 
 dotenv.config();
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 connectDB();
 sqlDetails
   .sync({ alter: true })
