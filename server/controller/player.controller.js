@@ -86,3 +86,65 @@ export const loginPlayer = async (req, res) => {
     return res.status(502).json({ message: "Login Server Error" });
   }
 };
+
+export const getAllPlayer = async (req, res) => {
+  try {
+    const allPlayers = await playerRegistration.findAll({
+      attributes: ["id", "name", "email", "age", "phone", "gender", "position"],
+      order: [["id", "ASC"]],
+    });
+    res.status(200).json(allPlayers);
+  } catch (error) {
+    console.error("Error fetching players:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+export const updatePlayer = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, email, phone, age, gender, position } = req.body;
+
+    const player = playerRegistration.findByPk(id);
+    if (!player) {
+      return res.status(200).json({ message: "player not found" });
+    }
+    if (req.user.role !== "admin" && req.user.id !== parseInt(id)) {
+      return res.status(403).json({ message: "unauthorized user" });
+    }
+    const updatedPlayer = await player.update({
+      name: name || player.name,
+      email: email || player.email,
+      phone: phone || player.phone,
+      age: age || player.age,
+      gender: gender || player.gender,
+      position: position || player.position,
+    });
+    return res.status(200).json({
+      message: "Player profile updated successfully",
+      updatedPlayer,
+    });
+  } catch (error) {
+    console.error("Error updating player:", error);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
+export const deletePlayer = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const player = await playerRegistration.findByPk(id);
+    if (!player) {
+      return res.status(404).json({ message: "player not found" });
+    }
+    if (req.user.role !== "admin" && req.user.id !== player.id) {
+      return res.status(403).json({ message: "Unauthorized access" });
+    }
+    await player.destroy();
+    return res.status(200).json({ message: "user deleted successfully" });
+  } catch (error) {
+    console.log("Server error while deleting", error);
+    return res.status(501).json({ message: "server error" });
+  }
+};

@@ -9,7 +9,7 @@ const app = express();
 app.use(express.json());
 connectDB();
 sqlDetails
-  .sync()
+  .sync({ force: true })
   .then(() => console.log("✅ Tables synced"))
   .catch((err) => console.error("❌ Sync error:", err));
 

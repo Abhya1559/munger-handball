@@ -46,6 +46,11 @@ const playerRegistration = sqlDetails.define(
       type: DataTypes.STRING(100),
       allowNull: false,
     },
+    role: {
+      type: DataTypes.ENUM("player", "admin"),
+      defaultValue: "player",
+      allowNull: false,
+    },
   },
   {
     tableName: "players",
