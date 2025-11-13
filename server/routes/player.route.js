@@ -18,7 +18,12 @@ router.post("/login", loginPlayer);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password/:playerId/:token", resetPassword);
 router.get("/playerslist", playerAccess, getAllPlayer);
-router.put("/update-player/:id", playerAccess, updatePlayer);
+router.put(
+  "/update-player/:id",
+  playerAccess,
+  authorizeRoles("admin", "players"),
+  updatePlayer
+);
 router.delete(
   "/delete-player/:id",
   playerAccess,

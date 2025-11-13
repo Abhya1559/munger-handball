@@ -1,5 +1,5 @@
-// middlewares/role.middleware.js
 export const authorizeRoles = (...allowedRoles) => {
+  console.log(allowedRoles);
   return (req, res, next) => {
     try {
       if (!req.user || !req.user.role) {
