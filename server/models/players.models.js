@@ -38,9 +38,17 @@ const playerRegistration = sqlDetails.define(
       defaultValue: "select",
     },
     position: {
-      type: DataTypes.ENUM("1", "2", "3", "4", "5", "6", "7"),
+      type: DataTypes.ENUM(
+        "left-wing",
+        "right-wing",
+        "center",
+        "right-forward",
+        "left-forward",
+        "pivot",
+        "goalkeeper"
+      ),
       allowNull: false,
-      defaultValue: "1",
+      defaultValue: "goalkeeper",
     },
     password: {
       type: DataTypes.STRING(100),

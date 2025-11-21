@@ -1,15 +1,39 @@
-import "./App.css";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import Home from "./pages/Home";
+import ForgotPassword from "./pages/ForgotPassword";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import ResetPassword from "./pages/ResetPassword";
+import AdminDashboard from "./pages/AdminDashboard";
+import Navbar from "./components/Navbar";
+import AuthProvider from "./context/AuthContext";
 
-function App() {
+function Layout() {
+  const location = useLocation();
+
+  const hiddenNavBarOn = ["/login", "/register"];
+  const shouldHideNavbar = hiddenNavBarOn.includes(location.pathname);
+
   return (
-    <div>
-      <div className="flex items-center justify-center min-h-screen">
-        <h1 className="font-extrabold bg-linear-to-bl from-violet-500 to-fuchsia-500 text-transparent bg-clip-text text-6xl font-stretch-expanded  ">
-          Work in Progress target 7 Days
-        </h1>
-      </div>
-    </div>
+    <AuthProvider>
+      {!shouldHideNavbar && <Navbar />}
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/admin" element={<AdminDashboard />} />
+      </Routes>
+    </AuthProvider>
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Layout />
+    </BrowserRouter>
+  );
+}

@@ -44,17 +44,21 @@ export const loginPlayer = async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
-      return res.status(402).json({ message: "all fields are required" });
+      return res
+        .status(402)
+        .json({ success: false, message: "all fields are required" });
     }
     const user = await playerRegistration.findOne({ where: { email } });
     if (!user) {
       return res
         .status(404)
-        .json({ message: "user not found please register" });
+        .json({ success: false, message: "user not found please register" });
     }
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return res.status(403).json({ message: "Credentials are not valid" });
+      return res
+        .status(403)
+        .json({ success: false, message: "Credentials are not valid" });
     }
     const accessToken = jwt.sign(
       {
@@ -80,10 +84,14 @@ export const loginPlayer = async (req, res) => {
       secure: true,
       maxAge: 24 * 60 * 60 * 1000,
     });
-    return res.status(201).json({ message: "Login successful", accessToken });
+    return res
+      .status(201)
+      .json({ success: true, message: "Login successful", accessToken });
   } catch (error) {
     console.log("Server error", error);
-    return res.status(502).json({ message: "Login Server Error" });
+    return res
+      .status(502)
+      .json({ success: false, message: "Login Server Error" });
   }
 };
 
