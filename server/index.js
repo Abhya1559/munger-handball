@@ -3,6 +3,7 @@ import sqlDetails, { connectDB } from "./config/db.js";
 import playerRouter from "./routes/player.route.js";
 import dotenv from "dotenv";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 const PORT = 5000;
 
 dotenv.config();
@@ -15,9 +16,10 @@ app.use(
   })
 );
 app.use(express.json());
+app.use(cookieParser());
 connectDB();
 sqlDetails
-  .sync({ force: true })
+  .sync({ alter: true })
   .then(() => console.log("✅ Tables synced"))
   .catch((err) => console.error("❌ Sync error:", err));
 

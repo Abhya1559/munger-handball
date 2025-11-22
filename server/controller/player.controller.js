@@ -80,8 +80,8 @@ export const loginPlayer = async (req, res) => {
 
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
-      sameSite: "None",
-      secure: true,
+      sameSite: "Lax",
+      secure: false,
       maxAge: 24 * 60 * 60 * 1000,
     });
     return res
@@ -154,5 +154,25 @@ export const deletePlayer = async (req, res) => {
   } catch (error) {
     console.log("Server error while deleting", error);
     return res.status(501).json({ message: "server error" });
+  }
+};
+export const logoutPlayer = (req, res) => {
+  try {
+    const token = req.cookies;
+
+    if (!token?.jwt) {
+      return res.status(400).json({ message: "User not logged in" });
+    }
+
+    res.clearCookie("jwt", {
+      httpOnly: true,
+      secure: false,
+      sameSite: "Lax",
+    });
+
+    return res.status(200).json({ message: "Logout successful" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Server Error" });
   }
 };

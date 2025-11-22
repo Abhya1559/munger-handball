@@ -30,6 +30,9 @@ export const loginPlayer = async (credentials: any) => {
     };
   }
 };
+export const logout = async () => {
+  return axiosInstance.post("/logout", {}, { withCredentials: true });
+};
 export const forgotPassword = async (email: string) => {
   const response = await axiosInstance.post("/forgot-password", email);
   return response.data;

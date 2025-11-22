@@ -3,15 +3,21 @@ import { Button } from "./ui/button";
 import { Menu, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import { logout } from "../services/playerServices";
 
 export default function Navbar() {
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    setIsLoggedIn(false);
-    navigate("/login");
+  const handleLogout = async () => {
+    try {
+      await logout();
+      // window.location.reload();
+      setIsLoggedIn(false);
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div>
@@ -47,7 +53,9 @@ export default function Navbar() {
                 </Button>
               </div>
             ) : (
-              <Button onClick={handleLogout}>Logout</Button>
+              <Button onClick={handleLogout} className="cursor-pointer">
+                Logout
+              </Button>
             )}
           </div>
           <button className="md:hidden" onClick={() => setOpen(!open)}>

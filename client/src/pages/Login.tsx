@@ -5,7 +5,6 @@ import {
   CardAction,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "../components/ui/card";
@@ -36,13 +35,12 @@ export default function Login() {
     setLoading(true);
     try {
       const res = await loginPlayer(formData);
-
+      // setAuth({ accessToken: res.accessToken });
       console.log("Login response:", res);
 
       if (res.success) {
         alert("Login successful");
         setIsLoggedIn(true);
-        localStorage.setItem("token", res.accessToken);
         navigate("/");
       } else {
         alert("Login failed: " + res.message);
@@ -109,4 +107,7 @@ export default function Login() {
       </Card>
     </div>
   );
+}
+function setAuth(arg0: { accessToken: any }) {
+  throw new Error("Function not implemented.");
 }
