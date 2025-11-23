@@ -33,18 +33,18 @@ export const loginPlayer = async (credentials: any) => {
 export const logout = async () => {
   return axiosInstance.post("/logout", {}, { withCredentials: true });
 };
-export const forgotPassword = async (email: string) => {
-  const response = await axiosInstance.post("/forgot-password", email);
+export const forgotPassword = async (data: { email: string; name: string }) => {
+  const response = await axiosInstance.post("/forgot-password", data);
   return response.data;
 };
-export const resetPassword = async (
-  playerId: string,
-  token: string,
-  newPassword: string
-) => {
+export const resetPassword = async (data: {
+  playerId: string;
+  token: string;
+  password: string;
+}) => {
   const response = await axiosInstance.post(
-    `/reset-password/${playerId}/${token}`,
-    { newPassword }
+    `/reset-password/${data.playerId}/${data.token}`,
+    { password: data.password }
   );
   return response.data;
 };

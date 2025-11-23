@@ -11,7 +11,12 @@ import AuthProvider from "./context/AuthContext";
 function Layout() {
   const location = useLocation();
 
-  const hiddenNavBarOn = ["/login", "/register"];
+  const hiddenNavBarOn = [
+    "/login",
+    "/register",
+    "/forgot-password",
+    "/reset-password/:playerId/:token",
+  ];
   const shouldHideNavbar = hiddenNavBarOn.includes(location.pathname);
 
   return (
@@ -23,7 +28,10 @@ function Layout() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route
+          path="/reset-password/:playerId/:token"
+          element={<ResetPassword />}
+        />
         <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
     </AuthProvider>

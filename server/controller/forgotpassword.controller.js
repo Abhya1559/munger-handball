@@ -12,19 +12,21 @@ export const forgotPassword = async (req, res) => {
     return res.status(403).json({ message: "please fill all the fields" });
   }
   try {
-    const playerEmail = await playerRegistration.findOne({ where: { email } });
-    if (!playerEmail) {
+    const playerDetails = await playerRegistration.findOne({
+      where: { email, name },
+    });
+    if (!playerDetails) {
       return res.status(403).json({ message: "unauthorized user" });
     }
 
     const resetToken = jwt.sign(
-      { id: playerEmail.id },
+      { id: playerDetails.id },
       process.env.JWT_SECRET,
       {
         expiresIn: "15m",
       }
     );
-    const resetLink = `http://localhost:5000/api/players/reset-password/${playerEmail.id}/${resetToken}`;
+    const resetLink = `http://localhost:5173/reset-password/${playerDetails.id}/${resetToken}`;
 
     const transporter = nodemailer.createTransport({
       service: "Gmail",
@@ -44,7 +46,7 @@ export const forgotPassword = async (req, res) => {
   <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
     <h2 style="color: #2b7cff;">Password Reset Request</h2>
     <p>Hi ${name || "there"},</p>
-    <p>We received a request to reset your password for your <b>[Your App Name]</b> account.</p>
+    <p>We received a request to reset your password for your account.</p>
     <p>Click the button below to reset your password:</p>
     <div style="text-align: center; margin: 30px 0;">
       <a href="${resetLink}" 

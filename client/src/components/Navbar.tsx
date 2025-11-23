@@ -74,8 +74,29 @@ export default function Navbar() {
           </ul>
 
           <div className="flex flex-col gap-3 p-2">
-            <Button variant="default">Login</Button>
-            <Button variant="secondary">Register</Button>
+            {!isLoggedIn ? (
+              <div className="space-x-10">
+                {" "}
+                <Button
+                  onClick={() => navigate("/login")}
+                  variant={"default"}
+                  className="cursor-pointer"
+                >
+                  Login
+                </Button>
+                <Button
+                  onClick={() => navigate("/register")}
+                  variant={"secondary"}
+                  className="cursor-pointer"
+                >
+                  Register
+                </Button>
+              </div>
+            ) : (
+              <Button onClick={handleLogout} className="cursor-pointer">
+                Logout
+              </Button>
+            )}
           </div>
         </div>
       </nav>

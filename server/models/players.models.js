@@ -31,6 +31,7 @@ const playerRegistration = sqlDetails.define(
       validate: {
         is: /^[0-9]+$/i,
       },
+      unique: true,
     },
     gender: {
       type: DataTypes.ENUM("Male", "Female", "Prefer not to tell", "select"),

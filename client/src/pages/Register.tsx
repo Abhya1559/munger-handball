@@ -12,12 +12,18 @@ import { Label } from "../components/ui/label";
 import { useState } from "react";
 import { registerPlayer } from "../services/playerServices";
 import { Spinner } from "../components/ui/spinner";
+import { registerSchema } from "../utils/schema";
+import type z from "zod";
+
+type RegisterErrors = z.inferFlattenedErrors<
+  typeof registerSchema
+>["fieldErrors"];
 
 interface FormData {
   name: string;
   email: string;
   phone: number;
-  gender: string;
+  gender?: string;
   age: number;
   password: string;
   position: string;
@@ -35,6 +41,9 @@ export default function Register() {
     position: "",
   });
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState<RegisterErrors>({});
+  const result = registerSchema.safeParse(formData);
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -43,9 +52,16 @@ export default function Register() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    console.log(formData);
+    // console.log(formData);
+    if (!result.success) {
+      setErrors(result.error.flatten().fieldErrors);
+      setLoading(false);
+      return;
+    }
+    setErrors({});
+
     try {
-      const data = await registerPlayer(formData);
+      const data = await registerPlayer(result.data);
       console.log("REGISTER SUCCESS:", data);
       alert("Registration successful!");
       navigate("/login");
@@ -86,6 +102,7 @@ export default function Register() {
                   value={formData.name}
                   required
                 />
+                <p className="text-red-500 text-sm">{errors.name}</p>
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
@@ -98,6 +115,7 @@ export default function Register() {
                   placeholder="m@example.com"
                   required
                 />
+                <p className="text-red-500 text-sm">{errors.email}</p>
               </div>
               <div className="flex justify-between items-center w-full gap-2">
                 <div className="w-full">
@@ -108,9 +126,10 @@ export default function Register() {
                     onChange={handleChange}
                     name="age"
                     value={formData.age}
-                    placeholder="Enter your age"
+                    placeholder="0"
                     className="mt-2 w-full border shadow"
                   />
+                  <p className="text-red-500 text-sm">{errors.age}</p>
                 </div>
                 <div className="w-full">
                   {" "}
@@ -128,6 +147,7 @@ export default function Register() {
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                   </select>
+                  <p className="text-red-500 text-sm">{errors.gender}</p>
                 </div>
               </div>
               <div className="flex justify-between items-center w-full gap-2">
@@ -142,6 +162,7 @@ export default function Register() {
                     placeholder="Enter your number"
                     className="mt-2 w-full border shadow"
                   />
+                  <p className="text-red-500 text-sm">{errors.phone}</p>
                 </div>
                 <div className="w-full">
                   {" "}
@@ -164,6 +185,7 @@ export default function Register() {
                     <option value="pivot">Pivot Player</option>
                     <option value="goalkeeper">Goalkeeper</option>
                   </select>
+                  <p className="text-red-500 text-sm">{errors.position}</p>
                 </div>
               </div>
               <div className="grid gap-2">
@@ -179,6 +201,7 @@ export default function Register() {
                   required
                 />
               </div>
+              <p className="text-red-500 text-sm">{errors.password}</p>
             </div>
             <Button type="submit" className="w-full cursor-pointer mt-5 ">
               {loading ? <Spinner /> : <h1>Register</h1>}

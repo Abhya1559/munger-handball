@@ -14,6 +14,11 @@ import { useContext, useState } from "react";
 import { loginPlayer } from "../services/playerServices";
 import { Spinner } from "../components/ui/spinner";
 import { AuthContext } from "../context/AuthContext";
+import { loginSchema } from "../utils/schema";
+
+import type z from "zod";
+
+type LoginErrors = z.inferFlattenedErrors<typeof loginSchema>["fieldErrors"];
 
 interface FormData {
   email: string;
@@ -26,6 +31,10 @@ export default function Login() {
     password: "",
   });
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState<LoginErrors>({});
+
+  const result = loginSchema.safeParse(formData);
+
   const { setIsLoggedIn } = useContext(AuthContext);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -33,8 +42,16 @@ export default function Login() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
+
+    if (!result.success) {
+      setErrors(result.error.flatten().fieldErrors);
+      setLoading(false);
+      return;
+    }
+    setErrors({});
+
     try {
-      const res = await loginPlayer(formData);
+      const res = await loginPlayer(result.data);
       // setAuth({ accessToken: res.accessToken });
       console.log("Login response:", res);
 
@@ -78,16 +95,17 @@ export default function Login() {
                   placeholder="m@example.com"
                   required
                 />
+                <p className="text-red-500 text-sm">{errors.email}</p>
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
-                  <a
-                    href="#"
+                  <Link
+                    to={"/forgot-password"}
                     className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
                   >
                     Forgot your password?
-                  </a>
+                  </Link>
                 </div>
                 <Input
                   id="password"
@@ -97,6 +115,7 @@ export default function Login() {
                   type="password"
                   required
                 />
+                <p className="text-red-500 text-sm">{errors.password}</p>
               </div>
             </div>
             <Button type="submit" className="w-full mt-5 cursor-pointer">
@@ -107,7 +126,4 @@ export default function Login() {
       </Card>
     </div>
   );
-}
-function setAuth(arg0: { accessToken: any }) {
-  throw new Error("Function not implemented.");
 }
