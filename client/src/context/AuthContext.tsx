@@ -1,23 +1,45 @@
+import axios from "axios";
 import { createContext, useState, useEffect, type ReactNode } from "react";
 
+export interface User {
+  name: string;
+  email: string;
+  phone?: number;
+  gender?: string;
+  age?: number;
+  password?: string;
+  position?: string;
+}
 interface AuthContextType {
+  user: User | null;
+  setUser: (user: User | null) => void;
   isLoggedIn: boolean;
   setIsLoggedIn: (value: boolean) => void;
 }
+
 export const AuthContext = createContext<AuthContextType>({
+  user: null,
+  setUser: () => {},
   isLoggedIn: false,
   setIsLoggedIn: () => {},
 });
 export default function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setIsLoggedIn(true);
-    }
+    axios
+      .get("http://localhost:5000/api/me", { withCredentials: true })
+      .then((res) => {
+        setUser(res.data.user);
+        setIsLoggedIn(true);
+      })
+      .catch(() => {
+        setIsLoggedIn(false);
+        setUser(null);
+      });
   }, []);
   return (
-    <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
+    <AuthContext.Provider value={{ user, setUser, isLoggedIn, setIsLoggedIn }}>
       {children}
     </AuthContext.Provider>
   );

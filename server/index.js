@@ -4,6 +4,7 @@ import playerRouter from "./routes/player.route.js";
 import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import authRouter from "./routes/auth.route.js";
 const PORT = 5000;
 
 dotenv.config();
@@ -19,15 +20,12 @@ app.use(express.json());
 app.use(cookieParser());
 connectDB();
 sqlDetails
-  .sync({ alter: true })
+  .sync()
   .then(() => console.log("✅ Tables synced"))
   .catch((err) => console.error("❌ Sync error:", err));
 
 app.use("/api/players", playerRouter);
-app.get("/", (req, res) => {
-  res.send("Hello Munger handball project has started");
-});
-
+app.use("/api", authRouter);
 app.listen(PORT, () => {
   console.log(`server is running on PORT ${PORT}`);
 });

@@ -60,23 +60,19 @@ export const loginPlayer = async (req, res) => {
         .status(403)
         .json({ success: false, message: "Credentials are not valid" });
     }
-    const accessToken = jwt.sign(
-      {
-        email,
-      },
-      process.env.ACCESS_TOKEN_SECRET,
-      {
-        expiresIn: "10m",
-      }
-    );
 
-    const refreshToken = jwt.sign(
-      {
-        email,
-      },
-      process.env.REFRESH_TOKEN_SECRET,
-      { expiresIn: "1d" }
-    );
+    const payLoad = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+    };
+    const accessToken = jwt.sign(payLoad, process.env.ACCESS_TOKEN_SECRET, {
+      expiresIn: "10m",
+    });
+
+    const refreshToken = jwt.sign(payLoad, process.env.REFRESH_TOKEN_SECRET, {
+      expiresIn: "1d",
+    });
 
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
@@ -84,9 +80,15 @@ export const loginPlayer = async (req, res) => {
       secure: false,
       maxAge: 24 * 60 * 60 * 1000,
     });
-    return res
-      .status(201)
-      .json({ success: true, message: "Login successful", accessToken });
+    return res.status(201).json({
+      success: true,
+      message: "Login successful",
+      user: {
+        name: user.name,
+        email: user.email,
+      },
+      accessToken,
+    });
   } catch (error) {
     console.log("Server error", error);
     return res

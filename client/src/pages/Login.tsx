@@ -35,7 +35,7 @@ export default function Login() {
 
   const result = loginSchema.safeParse(formData);
 
-  const { setIsLoggedIn } = useContext(AuthContext);
+  const { setUser, setIsLoggedIn } = useContext(AuthContext);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -58,6 +58,7 @@ export default function Login() {
       if (res.success) {
         alert("Login successful");
         setIsLoggedIn(true);
+        setUser(res.user);
         navigate("/");
       } else {
         alert("Login failed: " + res.message);

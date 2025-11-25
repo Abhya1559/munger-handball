@@ -11,6 +11,7 @@ import { forgotPassword } from "../controller/forgotpassword.controller.js";
 import { resetPassword } from "../controller/forgotpassword.controller.js";
 import { verifyJwt } from "../middleware/auth.middleware.js";
 import { authorizeRoles } from "../middleware/role.middleware.js";
+import { authRoute } from "../controller/authRoute.controller.js";
 
 const router = express.Router();
 

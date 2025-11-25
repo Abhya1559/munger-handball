@@ -6,7 +6,7 @@ import { AuthContext } from "../context/AuthContext";
 import { logout } from "../services/playerServices";
 
 export default function Navbar() {
-  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+  const { user, isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const handleLogout = async () => {
@@ -53,9 +53,15 @@ export default function Navbar() {
                 </Button>
               </div>
             ) : (
-              <Button onClick={handleLogout} className="cursor-pointer">
-                Logout
-              </Button>
+              <div className="flex justify-between items-center gap-10">
+                {" "}
+                <p className="text-lg">
+                  Hello, <span className="font-semibold"> {user?.name}</span>
+                </p>
+                <Button onClick={handleLogout} className="cursor-pointer">
+                  Logout
+                </Button>
+              </div>
             )}
           </div>
           <button className="md:hidden" onClick={() => setOpen(!open)}>
