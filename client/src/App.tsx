@@ -8,6 +8,8 @@ import AdminDashboard from "./pages/AdminDashboard";
 import Navbar from "./components/Navbar";
 import AuthProvider from "./context/AuthContext";
 
+import PlayerProfile from "./pages/PlayerProfile";
+
 function Layout() {
   const location = useLocation();
 
@@ -28,6 +30,7 @@ function Layout() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/profile" element={<PlayerProfile />} />
         <Route
           path="/reset-password/:playerId/:token"
           element={<ResetPassword />}

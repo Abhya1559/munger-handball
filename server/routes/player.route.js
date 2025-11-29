@@ -3,6 +3,7 @@ import {
   createPlayer,
   deletePlayer,
   getAllPlayer,
+  getPlayerById,
   logoutPlayer,
   updatePlayer,
 } from "../controller/player.controller.js";
@@ -21,6 +22,7 @@ router.post("/logout", logoutPlayer);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password/:playerId/:token", resetPassword);
 router.get("/playerslist", verifyJwt, getAllPlayer);
+router.get("/player/:id", getPlayerById);
 router.put(
   "/update-player/:id",
   verifyJwt,

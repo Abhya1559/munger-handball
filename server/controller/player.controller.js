@@ -84,6 +84,7 @@ export const loginPlayer = async (req, res) => {
       success: true,
       message: "Login successful",
       user: {
+        id: user.id,
         name: user.name,
         email: user.email,
       },
@@ -94,6 +95,21 @@ export const loginPlayer = async (req, res) => {
     return res
       .status(502)
       .json({ success: false, message: "Login Server Error" });
+  }
+};
+
+export const getPlayerById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const player = await playerRegistration.findByPk(id);
+    if (!player) {
+      return res.status(404).json({ message: "player not found" });
+    }
+    console.log(player);
+    res.status(200).json({ success: true, player });
+  } catch (error) {
+    console.log(error);
+    return res.status(501).json({ message: "server error" });
   }
 };
 
@@ -115,9 +131,9 @@ export const updatePlayer = async (req, res) => {
     const { id } = req.params;
     const { name, email, phone, age, gender, position } = req.body;
 
-    const player = playerRegistration.findByPk(id);
+    const player = await playerRegistration.findByPk(id);
     if (!player) {
-      return res.status(200).json({ message: "player not found" });
+      return res.status(404).json({ message: "player not found" });
     }
     if (req.user.role !== "admin" && req.user.id !== parseInt(id)) {
       return res.status(403).json({ message: "unauthorized user" });
@@ -132,7 +148,7 @@ export const updatePlayer = async (req, res) => {
     });
     return res.status(200).json({
       message: "Player profile updated successfully",
-      updatedPlayer,
+      user: updatedPlayer,
     });
   } catch (error) {
     console.error("Error updating player:", error);

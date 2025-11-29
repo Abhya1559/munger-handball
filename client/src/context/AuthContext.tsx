@@ -2,12 +2,12 @@ import axios from "axios";
 import { createContext, useState, useEffect, type ReactNode } from "react";
 
 export interface User {
+  id: number;
   name: string;
   email: string;
-  phone?: number;
+  phone?: string;
   gender?: string;
   age?: number;
-  password?: string;
   position?: string;
 }
 interface AuthContextType {
@@ -30,12 +30,13 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     axios
       .get("http://localhost:5000/api/me", { withCredentials: true })
       .then((res) => {
+        console.log(res);
         setUser(res.data.user);
         setIsLoggedIn(true);
       })
       .catch(() => {
-        setIsLoggedIn(false);
         setUser(null);
+        setIsLoggedIn(false);
       });
   }, []);
   return (

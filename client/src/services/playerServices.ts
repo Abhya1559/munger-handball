@@ -1,12 +1,19 @@
 import axiosInstance from "../api/axiosInstance.ts";
 
+export const getPlayer = async (id: number) => {
+  const response = await axiosInstance.get(`/player/${id}`);
+  return response.data;
+};
 export const getAllPlayers = async () => {
   const response = await axiosInstance.get("/playerslist");
   return response.data;
 };
 
-export const updateById = async (id: number, updatedData: any) => {
-  const response = await axiosInstance.put(`/update-player/${id}`, updatedData);
+export const updateById = async (data: { id: number; updatedData: any }) => {
+  const response = await axiosInstance.put(
+    `/update-player/${data.id}`,
+    data.updatedData
+  );
   return response.data;
 };
 export const deleteById = async (id: number) => {

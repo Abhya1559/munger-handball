@@ -53,7 +53,7 @@ export default function Login() {
     try {
       const res = await loginPlayer(result.data);
       // setAuth({ accessToken: res.accessToken });
-      console.log("Login response:", res);
+      // console.log("Login response:", res);
 
       if (res.success) {
         alert("Login successful");

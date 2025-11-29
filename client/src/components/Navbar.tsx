@@ -56,7 +56,11 @@ export default function Navbar() {
               <div className="flex justify-between items-center gap-10">
                 {" "}
                 <p className="text-lg">
-                  Hello, <span className="font-semibold"> {user?.name}</span>
+                  Hello,{" "}
+                  <Link to={"/profile"} className="font-semibold">
+                    {" "}
+                    {user?.name}
+                  </Link>
                 </p>
                 <Button onClick={handleLogout} className="cursor-pointer">
                   Logout
