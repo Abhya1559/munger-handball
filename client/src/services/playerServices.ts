@@ -1,6 +1,6 @@
 import axiosInstance from "../api/axiosInstance.ts";
 
-export const getPlayer = async (id: number) => {
+export const getPlayer = async (id: any) => {
   const response = await axiosInstance.get(`/player/${id}`);
   return response.data;
 };

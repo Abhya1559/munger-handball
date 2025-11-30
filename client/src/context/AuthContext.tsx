@@ -15,6 +15,8 @@ interface AuthContextType {
   setUser: (user: User | null) => void;
   isLoggedIn: boolean;
   setIsLoggedIn: (value: boolean) => void;
+  isLoadingAuth: boolean;
+  setIsLoadingAuth: (value: boolean) => void;
 }
 
 export const AuthContext = createContext<AuthContextType>({
@@ -22,10 +24,13 @@ export const AuthContext = createContext<AuthContextType>({
   setUser: () => {},
   isLoggedIn: false,
   setIsLoggedIn: () => {},
+  isLoadingAuth: true,
+  setIsLoadingAuth: () => {},
 });
 export default function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+  const [isLoadingAuth, setIsLoadingAuth] = useState(true);
   useEffect(() => {
     axios
       .get("http://localhost:5000/api/me", { withCredentials: true })
@@ -37,10 +42,23 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
       .catch(() => {
         setUser(null);
         setIsLoggedIn(false);
+      })
+      .finally(() => {
+        setIsLoadingAuth(false);
       });
   }, []);
+
   return (
-    <AuthContext.Provider value={{ user, setUser, isLoggedIn, setIsLoggedIn }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        setUser,
+        isLoggedIn,
+        setIsLoggedIn,
+        isLoadingAuth,
+        setIsLoadingAuth,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

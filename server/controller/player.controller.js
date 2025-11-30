@@ -76,18 +76,14 @@ export const loginPlayer = async (req, res) => {
 
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
-      sameSite: "Lax",
+      sameSite: "lax",
       secure: false,
       maxAge: 24 * 60 * 60 * 1000,
     });
     return res.status(201).json({
       success: true,
       message: "Login successful",
-      user: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-      },
+      user: payLoad,
       accessToken,
     });
   } catch (error) {
@@ -101,11 +97,17 @@ export const loginPlayer = async (req, res) => {
 export const getPlayerById = async (req, res) => {
   try {
     const { id } = req.params;
+    // const paramsId = parseInt(req.params.id, 10);
+    // console.log(paramsId);
+    // const loggedInId = req.user.id;
+    // console.log(paramsId, loggedInId);
+    // if (paramsId !== loggedInId) {
+    //   return res.status(302).json({ message: "User not authorized" });
+    // }
     const player = await playerRegistration.findByPk(id);
     if (!player) {
       return res.status(404).json({ message: "player not found" });
     }
-    console.log(player);
     res.status(200).json({ success: true, player });
   } catch (error) {
     console.log(error);
@@ -113,7 +115,7 @@ export const getPlayerById = async (req, res) => {
   }
 };
 
-export const getAllPlayer = async (req, res) => {
+export const getAllPlayer = async (res) => {
   try {
     const allPlayers = await playerRegistration.findAll({
       attributes: ["id", "name", "email", "age", "phone", "gender", "position"],
