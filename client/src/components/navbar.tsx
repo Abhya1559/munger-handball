@@ -60,14 +60,12 @@ export const Navbar = () => {
         <NavbarItem className="hidden lg:flex space-x-4">
           <Link
             color="foreground"
-            className="font-semibold hover:text-teal-500 "
+            className="font-semibold hover:text-orange-500 "
+            href="/login"
           >
             Login
           </Link>
-          <Button color="success" className="text-white">
-            {" "}
-            Register
-          </Button>
+          <Button className="text-white bg-orange-500"> Register</Button>
         </NavbarItem>
       </NavbarContent>
 

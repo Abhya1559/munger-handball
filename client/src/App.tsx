@@ -4,6 +4,8 @@ import IndexPage from "@/pages/index";
 import DocsPage from "@/pages/docs";
 import PricingPage from "@/pages/pricing";
 import BlogPage from "@/pages/blog";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 function App() {
   return (
@@ -12,6 +14,8 @@ function App() {
       <Route element={<DocsPage />} path="/gallery" />
       <Route element={<PricingPage />} path="/about" />
       <Route element={<BlogPage />} path="/contact" />
+      <Route element={<Login />} path="/login" />
+      <Route element={<Register />} path="/register" />
     </Routes>
   );
 }
