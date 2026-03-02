@@ -6,6 +6,7 @@ import { useState } from "react";
 import { login } from "@/api/auth.api";
 import { useNavigate } from "react-router-dom";
 import { Alert } from "@heroui/alert";
+import { useAuth } from "@/context/useAuth";
 interface Form {
   email: string;
   password: string;
@@ -19,7 +20,7 @@ export default function Login() {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-
+  const { loginUser } = useAuth();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({
       ...form,
@@ -32,8 +33,7 @@ export default function Login() {
     setIsLoading(true);
     try {
       const payload = { ...form };
-
-      await login(payload);
+      await loginUser(payload);
       window.location.href = "/";
       navigate("/");
     } catch (error: any) {

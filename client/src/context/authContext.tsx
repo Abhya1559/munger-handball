@@ -1,5 +1,5 @@
-import { createContext, ReactNode, useState } from "react";
-import { login, logout } from "@/api/auth.api";
+import { createContext, ReactNode, useEffect, useState } from "react";
+import { getMe, login, logout, refreshToken } from "@/api/auth.api";
 
 interface User {
   id: string;
@@ -22,9 +22,22 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const initAuth = async () => {
+      try {
+        await refreshToken();
+        const res = await getMe();
+        setUser(res.data.user);
+      } catch (error) {
+        setUser(null);
+      }
+    };
+    initAuth();
+  }, []);
   const loginUser = async (data: LoginPayload) => {
     const res = await login(data);
-    setUser(res.data.player);
+    setUser(res.data.isPlayer);
   };
   const logoutUser = async () => {
     await logout();

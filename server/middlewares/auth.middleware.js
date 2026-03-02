@@ -6,6 +6,7 @@ export const authMiddleware = (req, res, next) => {
     if (!token) {
       return res.status(401).json({ message: "Not Authenticated" });
     }
+
     const decoded = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
     req.user = decoded;
     next();

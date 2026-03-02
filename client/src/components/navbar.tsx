@@ -20,7 +20,7 @@ import { useAuth } from "@/context/useAuth";
 
 export const Navbar = () => {
   const { user, logoutUser } = useAuth();
-  console.log(user);
+
   return (
     <HeroUINavbar maxWidth="xl" position="sticky">
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
@@ -61,12 +61,14 @@ export const Navbar = () => {
         </NavbarItem>
         <NavbarItem className="hidden lg:flex space-x-4">
           {user ? (
-            <>
-              <span className="font-medium text-gray-600">Hi, {user.name}</span>
-              <Button onPress={logoutUser} className="bg-red-500 text-white">
+            <div className="flex items-center justify-between space-x-8">
+              <span className="font-medium dark:text-white text-gray-600">
+                Hi, {user.name}
+              </span>
+              <Button onPress={logoutUser} className="bg-orange-500 text-white">
                 Logout
               </Button>
-            </>
+            </div>
           ) : (
             <>
               <Link

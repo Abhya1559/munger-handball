@@ -100,7 +100,7 @@ export const refreshToken = (req, res) => {
         .json({ message: "Unauthorized access Refresh Token missing" });
     }
     const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
-    const newAccessToken = generateAccessToken({ id: decoded._id });
+    const newAccessToken = generateAccessToken({ id: decoded.id });
 
     res.cookie("accessToken", newAccessToken, {
       httpOnly: true,
@@ -131,5 +131,18 @@ export const logout = (req, res) => {
     return res.status(200).json({ message: "Logout successful" });
   } catch (error) {
     return res.status(500).json({ message: "Server error" });
+  }
+};
+
+export const getMe = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const user = await Player.findById(userId).select("-password");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    return res.status(200).json({ user });
+  } catch (error) {
+    return res.status(401).json({ message: "Unauthorized" });
   }
 };
