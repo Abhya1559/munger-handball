@@ -2,11 +2,94 @@ import { Button } from "@heroui/button";
 import { Link } from "@heroui/link";
 import { FcGoogle } from "react-icons/fc";
 import handball from "../assets/hand.jpeg";
+import { useState } from "react";
+import { Alert } from "@heroui/alert";
+import { register } from "@/api/auth.api";
+import { useNavigate } from "react-router-dom";
+type RegisterForm = {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  position: string;
+  secretKey: string;
+  aadhar: string;
+  address: {
+    house: string;
+    mohalla: string;
+    landmark: string;
+  };
+};
+
 export default function Register() {
+  const navigate = useNavigate();
+  const [form, setForm] = useState<RegisterForm>({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    position: "",
+    secretKey: "",
+    aadhar: "",
+    address: {
+      house: "",
+      mohalla: "",
+      landmark: "",
+    },
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
+    const { name, value } = e.target;
+    if (name.startsWith("address.")) {
+      const key = name.split(".")[1];
+      setForm((prev) => ({
+        ...prev,
+        address: {
+          ...prev.address,
+          [key]: value,
+        },
+      }));
+      return;
+    }
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+  const handleRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    if (form.password !== form.confirmPassword) {
+      setError("Passwords do not match");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const payload = { ...form };
+      delete (payload as any).confirmPassword;
+      await register(payload);
+      navigate("/login");
+    } catch (err: any) {
+      setError(err.response?.data?.message || "Registration failed");
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="flex min-h-screen">
       <div className="w-1/2 flex m-4 flex-col items-center justify-center">
         <div className="mb-6 text-center lg:text-left">
+          {error && (
+            <Alert
+              color="danger"
+              className="top-0 right-1"
+              title={`Login error ${error}`}
+            />
+          )}
           <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 mb-3">
             Create Account
           </h1>
@@ -15,14 +98,21 @@ export default function Register() {
           </p>
         </div>
         <div className="max-w-full flex flex-col gap-4">
-          <form action="" className="flex flex-col gap-8">
+          <form
+            action=""
+            onSubmit={handleRegister}
+            className="flex flex-col gap-8"
+          >
             <div className="flex w-full justify-between items-center space-x-8">
               <div className="flex  w-full items-start justify-center flex-col">
                 <label htmlFor="" className="font-medium">
-                  name
+                  Name
                 </label>
                 <input
                   type="text"
+                  name="name"
+                  value={form.name}
+                  onChange={handleChange}
                   className="border-2 transition duration-200 focus:outline-none focus:ring-2 focus:ring-orange-400 border-gray-200 px-4 py-2  rounded-lg w-full"
                   placeholder="enter your name"
                 />
@@ -33,6 +123,9 @@ export default function Register() {
                 </label>
                 <input
                   type="email"
+                  name="email"
+                  value={form.email}
+                  onChange={handleChange}
                   className="border-2 transition duration-200 focus:outline-none focus:ring-2 focus:ring-orange-400 border-gray-200 px-4 py-2  rounded-lg w-full"
                   placeholder="enter your email"
                 />
@@ -43,24 +136,21 @@ export default function Register() {
                 <label htmlFor="position" className="font-medium">
                   Position
                 </label>
-
                 <select
-                  id="position"
                   name="position"
+                  value={form.position}
+                  onChange={handleChange}
                   className="border-2 border-gray-200 px-4 py-2 rounded-lg w-full
-               focus:outline-none focus:ring-2 focus:ring-orange-400
-               transition"
+             focus:outline-none focus:ring-2 focus:ring-orange-400"
                 >
-                  <option value="" className="text-gray-400">
-                    Select position
-                  </option>
-                  <option value="goalkeeper">Goalkeeper</option>
-                  <option value="left-wing">Left Wing</option>
-                  <option value="right-wing">Right Wing</option>
-                  <option value="right-wing">Right Forward</option>
-                  <option value="right-wing">Left Forward</option>
-                  <option value="center">Center</option>
-                  <option value="pivot">Pivot</option>
+                  <option value="">Select position</option>
+                  <option value="Goalkeeper">Goalkeeper</option>
+                  <option value="Left Wing">Left Wing</option>
+                  <option value="Right Wing">Right Wing</option>
+                  <option value="Right Forward">Right Forward</option>
+                  <option value="Left Forward">Left Forward</option>
+                  <option value="Center">Center</option>
+                  <option value="Pivot">Pivot</option>
                 </select>
               </div>
               <div className="flex flex-col w-full items-start justify-center">
@@ -68,7 +158,10 @@ export default function Register() {
                   Secret code
                 </label>
                 <input
-                  type="text"
+                  type="password"
+                  name="secretKey"
+                  value={form.secretKey}
+                  onChange={handleChange}
                   className="border-2 transition duration-200 focus:outline-none focus:ring-2 focus:ring-orange-400 border-gray-200 px-4 py-2  rounded-lg w-full"
                   placeholder="enter secret code"
                 />
@@ -81,6 +174,9 @@ export default function Register() {
                 </label>
                 <input
                   type="text"
+                  name="address.house"
+                  value={form.address.house}
+                  onChange={handleChange}
                   className="border-2 transition duration-200 focus:outline-none focus:ring-2 focus:ring-orange-400 border-gray-200 px-4 py-2  rounded-lg w-full"
                   placeholder="enter House number"
                 />
@@ -91,6 +187,9 @@ export default function Register() {
                 </label>
                 <input
                   type="text"
+                  name="address.mohalla"
+                  value={form.address.mohalla}
+                  onChange={handleChange}
                   className="border-2 transition duration-200 focus:outline-none focus:ring-2 focus:ring-orange-400 border-gray-200 px-4 py-2  rounded-lg w-full"
                   placeholder="enter Mohalla"
                 />
@@ -101,6 +200,9 @@ export default function Register() {
                 </label>
                 <input
                   type="text"
+                  name="address.landmark"
+                  value={form.address.landmark}
+                  onChange={handleChange}
                   className="border-2 transition duration-200 focus:outline-none focus:ring-2 focus:ring-orange-400 border-gray-200 px-4 py-2  rounded-lg w-full"
                   placeholder="enter landmark"
                 />
@@ -113,6 +215,9 @@ export default function Register() {
                 </label>
                 <input
                   type="text"
+                  name="aadhar"
+                  value={form.aadhar}
+                  onChange={handleChange}
                   className="border-2 transition duration-200 focus:outline-none focus:ring-2 focus:ring-orange-400 border-gray-200 px-4 py-2  rounded-lg w-full"
                   placeholder="XXXX XXXX XXXX"
                 />
@@ -123,6 +228,9 @@ export default function Register() {
                 </label>
                 <input
                   type="password"
+                  name="password"
+                  value={form.password}
+                  onChange={handleChange}
                   className="border-2 transition duration-200 focus:outline-none focus:ring-2 focus:ring-orange-400 border-gray-200 px-4 py-2  rounded-lg w-full"
                   placeholder="enter password"
                 />
@@ -133,6 +241,9 @@ export default function Register() {
                 </label>
                 <input
                   type="password"
+                  name="confirmPassword"
+                  value={form.confirmPassword}
+                  onChange={handleChange}
                   className="border-2 transition duration-200 focus:outline-none focus:ring-2 focus:ring-orange-400 border-gray-200 px-4 py-2  rounded-lg w-full"
                   placeholder="enter password"
                 />
@@ -144,7 +255,7 @@ export default function Register() {
                   type="submit"
                   className="w-full mt-2 h-11 transition duration-200 bg-orange-400 text-white font-semibold"
                 >
-                  Register
+                  {loading ? "Loading..." : "Register"}
                 </Button>{" "}
                 <Button
                   className="w-full h-11 mb-5 flex items-center justify-center gap-2

@@ -105,7 +105,7 @@ export const refreshToken = (req, res) => {
     res.cookie("accessToken", newAccessToken, {
       httpOnly: true,
       secure: false,
-      sameSite: "strict",
+      sameSite: "lax",
       maxAge: 15 * 60 * 1000,
     });
     return res.status(201).json({ message: "Access token refreshed" });
@@ -116,10 +116,19 @@ export const refreshToken = (req, res) => {
 
 export const logout = (req, res) => {
   try {
-    res.clearCookie("accessToken");
-    res.clearCookie("refreshToken");
+    res.clearCookie("accessToken", {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: false,
+    });
 
-    return res.status(200).json("Logout successful");
+    res.clearCookie("refreshToken", {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: false,
+    });
+
+    return res.status(200).json({ message: "Logout successful" });
   } catch (error) {
     return res.status(500).json({ message: "Server error" });
   }

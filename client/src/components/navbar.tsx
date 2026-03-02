@@ -15,10 +15,12 @@ import clsx from "clsx";
 
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
-import { GithubIcon } from "@/components/icons";
 import { Logo } from "@/components/icons";
+import { useAuth } from "@/context/useAuth";
 
 export const Navbar = () => {
+  const { user, logoutUser } = useAuth();
+  console.log(user);
   return (
     <HeroUINavbar maxWidth="xl" position="sticky">
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
@@ -58,21 +60,30 @@ export const Navbar = () => {
           <ThemeSwitch />
         </NavbarItem>
         <NavbarItem className="hidden lg:flex space-x-4">
-          <Link
-            color="foreground"
-            className="font-semibold hover:text-orange-500 "
-            href="/login"
-          >
-            Login
-          </Link>
-          <Button className="text-white bg-orange-500"> Register</Button>
+          {user ? (
+            <>
+              <span className="font-medium text-gray-600">Hi, {user.name}</span>
+              <Button onPress={logoutUser} className="bg-red-500 text-white">
+                Logout
+              </Button>
+            </>
+          ) : (
+            <>
+              <Link
+                color="foreground"
+                className="font-semibold hover:text-orange-500 "
+                href="/login"
+              >
+                Login
+              </Link>
+              <Link href="/register">
+                <Button className="text-white bg-orange-500"> Register</Button>
+              </Link>
+            </>
+          )}
         </NavbarItem>
       </NavbarContent>
-
       <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
-        <Link isExternal href={siteConfig.links.github}>
-          <GithubIcon className="text-default-500" />
-        </Link>
         <ThemeSwitch />
         <NavbarMenuToggle />
       </NavbarContent>
