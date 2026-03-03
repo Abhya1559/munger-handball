@@ -8,6 +8,9 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import Profile from "./pages/Profile";
+import ProtectedRoute from "./components/ProtectedRoute";
+import PublicRoutes from "./components/PublicRoute";
 
 function App() {
   return (
@@ -16,10 +19,25 @@ function App() {
       <Route element={<DocsPage />} path="/gallery" />
       <Route element={<PricingPage />} path="/about" />
       <Route element={<BlogPage />} path="/contact" />
-      <Route element={<Login />} path="/login" />
+      <Route
+        element={
+          <PublicRoutes>
+            <Login />s
+          </PublicRoutes>
+        }
+        path="/login"
+      />
       <Route element={<Register />} path="/register" />
       <Route element={<ForgotPassword />} path="/forgot-password" />
       <Route element={<ResetPassword />} path="/reset-password/:id/:token" />
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        }
+      />
     </Routes>
   );
 }

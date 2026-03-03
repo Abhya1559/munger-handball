@@ -15,6 +15,7 @@ interface LoginPayload {
 
 interface AuthContextType {
   user: User | null;
+  loading: boolean;
   loginUser: (data: LoginPayload) => Promise<void>;
   logoutUser: () => Promise<void>;
 }
@@ -22,7 +23,7 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const initAuth = async () => {
       try {
@@ -31,6 +32,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(res.data.user);
       } catch (error) {
         setUser(null);
+      } finally {
+        setLoading(false);
       }
     };
     initAuth();
@@ -44,7 +47,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUser(null);
   };
   return (
-    <AuthContext.Provider value={{ user, loginUser, logoutUser }}>
+    <AuthContext.Provider value={{ user, loading, loginUser, logoutUser }}>
       {children}
     </AuthContext.Provider>
   );

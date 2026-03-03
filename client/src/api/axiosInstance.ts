@@ -26,7 +26,8 @@ api.interceptors.response.use(
     if (
       error.response?.status === 401 &&
       !(originalRequest as any)._retry &&
-      !originalRequest.url.includes("/players/login")
+      !originalRequest.url.includes("/players/login") &&
+      !originalRequest.url.includes("/players/refresh")
     ) {
       (originalRequest as any)._retry = true;
 
