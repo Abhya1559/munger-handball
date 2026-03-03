@@ -11,6 +11,8 @@ import ResetPassword from "./pages/ResetPassword";
 import Profile from "./pages/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoutes from "./components/PublicRoute";
+import Achievements from "./pages/Achievements";
+import Notifications from "./pages/Notifications";
 
 function App() {
   return (
@@ -35,6 +37,22 @@ function App() {
         element={
           <ProtectedRoute>
             <Profile />
+          </ProtectedRoute>
+        }
+      />{" "}
+      <Route
+        path="/achievements"
+        element={
+          <ProtectedRoute>
+            <Achievements />
+          </ProtectedRoute>
+        }
+      />{" "}
+      <Route
+        path="/notification"
+        element={
+          <ProtectedRoute>
+            <Notifications />
           </ProtectedRoute>
         }
       />

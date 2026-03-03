@@ -63,7 +63,14 @@ export const Navbar = () => {
           {user ? (
             <div className="flex items-center justify-between space-x-8">
               <span className="font-medium dark:text-white text-gray-600">
-                Hi, {user.name}
+                Hi,
+                <Link
+                  href="/profile"
+                  className="ml-2 text-orange-400 hover:font-bold cursor-pointer"
+                >
+                  {" "}
+                  {user.name}
+                </Link>
               </span>
               <Button onPress={logoutUser} className="bg-orange-500 text-white">
                 Logout

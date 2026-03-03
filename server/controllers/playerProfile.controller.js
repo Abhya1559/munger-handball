@@ -12,6 +12,7 @@ export const profile = async (req, res) => {
         name: player.name,
         email: player.email,
         aadhar: player.aadhar,
+        position: player.position,
         address: {
           house: player.address.house,
           mohhala: player.address.mohalla,
