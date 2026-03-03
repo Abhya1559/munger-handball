@@ -67,7 +67,7 @@ export const login = async (req, res) => {
     if (!isMatch) {
       return res.status(401).json({ message: "credentials are incorrect" });
     }
-    console.log(isMatch);
+
     const accessToken = generateAccessToken({ id: isPlayer._id });
     const refreshToken = generateRefreshToken({ id: isPlayer._id });
 
@@ -85,6 +85,7 @@ export const login = async (req, res) => {
     });
     return res.status(200).json({
       message: "Login successful",
+      accessToken,
       isPlayer: {
         id: isPlayer._id,
         name: isPlayer.name,
