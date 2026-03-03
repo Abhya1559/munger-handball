@@ -1,9 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 
 import IndexPage from "@/pages/index";
-import DocsPage from "@/pages/docs";
-import PricingPage from "@/pages/pricing";
-import BlogPage from "@/pages/blog";
+
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
@@ -13,14 +11,17 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoutes from "./components/PublicRoute";
 import Achievements from "./pages/Achievements";
 import Notifications from "./pages/Notifications";
+import About from "./pages/About";
+import Gallery from "./pages/Gallery";
+import Contact from "./pages/Contact";
 
 function App() {
   return (
     <Routes>
       <Route element={<IndexPage />} path="/" />
-      <Route element={<DocsPage />} path="/gallery" />
-      <Route element={<PricingPage />} path="/about" />
-      <Route element={<BlogPage />} path="/contact" />
+      <Route element={<Gallery />} path="/gallery" />
+      <Route element={<About />} path="/about" />
+      <Route element={<Contact />} path="/contact" />
       <Route
         element={
           <PublicRoutes>

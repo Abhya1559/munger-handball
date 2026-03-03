@@ -83,9 +83,12 @@ export default function Profile() {
           <div className="bg-gradient-to-br from-orange-400 to-orange-600 p-2.5 rounded-xl shadow-lg shadow-orange-100">
             <Target className="text-white" size={22} />
           </div>
-          <span className="font-extrabold text-xl tracking-tight text-slate-800">
+          <Link
+            href="/"
+            className="font-extrabold text-xl tracking-tight text-slate-800"
+          >
             Munger<span className="text-orange-500">HB</span>
-          </span>
+          </Link>
         </div>
 
         <nav className="space-y-2 flex-1">
