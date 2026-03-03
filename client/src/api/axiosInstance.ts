@@ -3,6 +3,9 @@ import axios from "axios";
 const api = axios.create({
   baseURL: "http://localhost:5000/api",
   withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 let isRefreshing = false;
@@ -20,7 +23,11 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response?.status === 401 && !(originalRequest as any)._retry) {
+    if (
+      error.response?.status === 401 &&
+      !(originalRequest as any)._retry &&
+      !originalRequest.url.includes("/players/login")
+    ) {
       (originalRequest as any)._retry = true;
 
       if (isRefreshing) {

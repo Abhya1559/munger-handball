@@ -3,7 +3,6 @@ import { Link } from "@heroui/link";
 import { FcGoogle } from "react-icons/fc";
 import handball from "../assets/hand4.jpg";
 import { useState } from "react";
-import { login } from "@/api/auth.api";
 import { useNavigate } from "react-router-dom";
 import { Alert } from "@heroui/alert";
 import { useAuth } from "@/context/useAuth";
@@ -34,19 +33,21 @@ export default function Login() {
     try {
       const payload = { ...form };
       await loginUser(payload);
-      window.location.href = "/";
       navigate("/");
     } catch (error: any) {
-      setError(error.response?.data?.message || "Login failed");
+      console.log("AXIOS ERROR:", error);
+      if (error.response) {
+        setError(error.response.data.message);
+      } else {
+        setError("Login failed");
+      }
     } finally {
       setIsLoading(false);
-      setError("");
     }
   };
 
   return (
     <div className="flex min-h-screen">
-      {error && <Alert color="danger" title={`Login error ${error}`} />}
       <div className="w-5/6 h-screen overflow-hidden">
         <img
           src={handball}
@@ -78,7 +79,7 @@ export default function Login() {
             className="flex flex-col gap-3"
           >
             <div className="flex flex-col">
-              <label htmlFor="" className="font-medium mb-1">
+              <label htmlFor="" className="font-normal mb-1">
                 Email
               </label>
               <input
@@ -91,7 +92,7 @@ export default function Login() {
               />
             </div>
             <div className="flex flex-col">
-              <label htmlFor="" className="font-medium mb-1">
+              <label htmlFor="" className="font-normal mb-1">
                 Password
               </label>
               <input
@@ -109,7 +110,10 @@ export default function Login() {
                   <input type="checkbox" />
                   <h4>Remember Me</h4>
                 </div>
-                <Link className="text-orange-400 font-medium cursor-pointer">
+                <Link
+                  href="/forgot-password"
+                  className="text-orange-400 font-medium cursor-pointer"
+                >
                   Forgot password?
                 </Link>
               </div>
@@ -127,6 +131,7 @@ export default function Login() {
               </h1>
             </div>
           </form>
+          {error && <Alert color="danger" title={`${error}`} />}
         </div>
       </div>
     </div>

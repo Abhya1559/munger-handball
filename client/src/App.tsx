@@ -6,6 +6,8 @@ import PricingPage from "@/pages/pricing";
 import BlogPage from "@/pages/blog";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
       <Route element={<BlogPage />} path="/contact" />
       <Route element={<Login />} path="/login" />
       <Route element={<Register />} path="/register" />
+      <Route element={<ForgotPassword />} path="/forgot-password" />
+      <Route element={<ResetPassword />} path="/reset-password/:id/:token" />
     </Routes>
   );
 }

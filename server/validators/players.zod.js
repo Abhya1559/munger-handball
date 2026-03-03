@@ -27,3 +27,13 @@ export const registerPlayerSchema = z.object({
   }),
   aadhar: z.string().regex(/^\d{12}$/, "Aadhar must be exactly 12 digits"),
 });
+
+export const resetSchema = z.object({
+  password: z
+    .string()
+    .min(6, "password length is to short")
+    .regex(/[A-Z]/, "Must contain at least one uppercase letter")
+    .regex(/[a-z]/, "Must contain at least one lowercase letter")
+    .regex(/[0-9]/, "Must contain at least one number")
+    .regex(/[^a-zA-Z0-9]/, "Must contain at least one special character"),
+});
