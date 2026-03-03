@@ -88,8 +88,8 @@ export default function Profile() {
           </span>
         </div>
 
-        <nav className="space-y-1.5 flex-1">
-          <NavItem icon={<User size={19} />} label="Profile" active />
+        <nav className="space-y-2 flex-1">
+          <NavItem icon={<User size={19} />} label="Profile" />
 
           <Link href="/notification" className="w-full">
             {" "}
