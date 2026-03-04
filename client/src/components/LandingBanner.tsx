@@ -1,6 +1,8 @@
 import { Button } from "@heroui/button";
+import { useNavigate } from "react-router-dom";
 
 export default function LandingBanner() {
+  const navigate = useNavigate();
   return (
     <div className="w-full bg-white py-12 md:py-20 px-6 mb-10">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-10">
@@ -12,6 +14,7 @@ export default function LandingBanner() {
           Join the Munger Handball Association—Register today to play your part.
         </p>
         <Button
+          onPress={() => navigate("/register")}
           radius="full"
           className="bg-orange-500 text-white font-bold px-16 py-8 text-xl shadow-[0_10px_40px_-10px_rgba(249,115,22,0.5)] hover:scale-105 transition-transform shrink-0"
         >
