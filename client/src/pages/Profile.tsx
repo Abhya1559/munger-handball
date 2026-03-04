@@ -120,7 +120,7 @@ export default function Profile() {
           </Link>
         </div>
 
-        <nav className="space-y-2 flex-1">
+        <nav className="space-y-2 mt-14 flex-1">
           <NavItem icon={<User size={19} />} label="Profile" active />
           <Link href="/notification" className="block">
             <NavItem icon={<Bell size={19} />} label="Notifications" />
@@ -143,7 +143,7 @@ export default function Profile() {
       {/* Overlay for mobile sidebar */}
       {isMenuOpen && (
         <div
-          className="fixed inset-0 bg-slate-900/20 backdrop-blur-sm z-30 md:hidden"
+          className="fixed inset-0  bg-slate-900/20 backdrop-blur-sm z-30 md:hidden"
           onClick={() => setIsMenuOpen(false)}
         />
       )}
