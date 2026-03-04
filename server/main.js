@@ -17,7 +17,7 @@ app.use(
   }),
 );
 
-app.use("/players", playerRoute);
-app.use("/profile", profileRoute);
+app.use("/api/players", playerRoute);
+app.use("/api/profile", profileRoute);
 
 export default app;
