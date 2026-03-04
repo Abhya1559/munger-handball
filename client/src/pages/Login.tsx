@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Alert } from "@heroui/alert";
 import { useAuth } from "@/context/useAuth";
+
 interface Form {
   email: string;
   password: string;
@@ -20,6 +21,7 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const { loginUser } = useAuth();
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({
       ...form,
@@ -47,24 +49,29 @@ export default function Login() {
   };
 
   return (
-    <div className="flex min-h-screen">
-      <div className="w-5/6 h-screen overflow-hidden">
+    <div className="flex flex-col lg:flex-row min-h-screen">
+      {/* Image Section - Hidden on mobile, or shown as a top banner */}
+      <div className="hidden lg:block lg:w-3/5 xl:w-2/3 h-screen overflow-hidden">
         <img
           src={handball}
           alt="login-image"
           className="w-full h-full object-cover"
         />
       </div>
-      <div className="w-1/2 items-center justify-center flex flex-col">
-        <div className="mb-6 text-center lg:text-left">
-          <h1 className="text-4xl text-center font-extrabold tracking-tight text-gray-900 mb-3">
+
+      {/* Form Section */}
+      <div className="w-full lg:w-2/5 xl:w-1/3 items-center justify-center flex flex-col p-6 md:p-12">
+        <div className="mb-6 text-center">
+          <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 mb-3">
             Login
           </h1>
           <p className="text-gray-500 font-medium">
             Login to Munger Handball Association
           </p>
         </div>
-        <div className="flex flex-col gap-4 w-96">
+
+        {/* Responsive Form Container */}
+        <div className="flex flex-col gap-4 w-full max-w-sm">
           <Button
             className="w-full mb-5 flex items-center justify-center gap-2
              border border-gray-300 bg-transparent
@@ -73,6 +80,7 @@ export default function Login() {
             <FcGoogle className="text-lg" />
             <span>Login with Google</span>
           </Button>
+
           <form
             action=""
             onSubmit={handleLogin}
@@ -87,7 +95,7 @@ export default function Login() {
                 name="email"
                 value={form.email}
                 onChange={handleChange}
-                className="border-2 transition duration-200 focus:outline-none focus:ring-2 focus:ring-orange-400 border-gray-200 px-4 py-2  rounded-lg w-full"
+                className="border-2 transition duration-200 focus:outline-none focus:ring-2 focus:ring-orange-400 border-gray-200 px-4 py-2 rounded-lg w-full"
                 placeholder="enter your email"
               />
             </div>
@@ -100,30 +108,34 @@ export default function Login() {
                 name="password"
                 value={form.password}
                 onChange={handleChange}
-                className="border-2 transition duration-200 focus:outline-none focus:ring-2 focus:ring-orange-400 border-gray-200 px-4 py-2  rounded-lg w-full"
+                className="border-2 transition duration-200 focus:outline-none focus:ring-2 focus:ring-orange-400 border-gray-200 px-4 py-2 rounded-lg w-full"
                 placeholder="Enter your password"
               />
             </div>
+
             <div className="flex flex-col mt-1">
-              <div className="w-full flex items-start justify-between">
-                <div className="flex space-x-1">
-                  <input type="checkbox" />
-                  <h4>Remember Me</h4>
+              <div className="w-full flex items-center justify-between mb-2">
+                <div className="flex items-center space-x-1">
+                  <input type="checkbox" className="cursor-pointer" />
+                  <h4 className="text-sm">Remember Me</h4>
                 </div>
                 <Link
                   href="/forgot-password"
-                  className="text-orange-400 font-medium cursor-pointer"
+                  className="text-orange-400 text-sm font-medium cursor-pointer"
                 >
                   Forgot password?
                 </Link>
               </div>
+
               <Button
                 type="submit"
                 className="w-full mt-2 transition duration-200 bg-orange-400 text-white font-semibold"
+                isLoading={isLoading}
               >
                 {isLoading ? "Logging in" : "Login"}
               </Button>
-              <h1 className="text-gray-400 mt-4 cursor-pointer flex justify-center items-center">
+
+              <h1 className="text-gray-400 text-sm mt-4 cursor-pointer flex flex-wrap justify-center items-center">
                 Not registered yet?{" "}
                 <Link href="/register" className="text-orange-400 ml-2">
                   Create an account
@@ -131,7 +143,9 @@ export default function Login() {
               </h1>
             </div>
           </form>
-          {error && <Alert color="danger" title={`${error}`} />}
+          {error && (
+            <Alert color="danger" title={`${error}`} className="mt-4" />
+          )}
         </div>
       </div>
     </div>

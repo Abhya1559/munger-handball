@@ -17,9 +17,17 @@ export default function Gallery() {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") setSelectedImg(null);
     };
+    if (selectedImg) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
     window.addEventListener("keydown", handleEsc);
-    return () => window.removeEventListener("keydown", handleEsc);
-  }, []);
+    return () => {
+      window.removeEventListener("keydown", handleEsc);
+      document.body.style.overflow = "unset";
+    };
+  }, [selectedImg]);
 
   const images = [
     { src: img1, title: "Championship Finals", category: "Match" },
@@ -35,25 +43,25 @@ export default function Gallery() {
     <div className="flex flex-col min-h-screen">
       <Navbar />
 
-      <section className="flex-1 py-16 md:py-24 px-6 bg-[#F8FAFC]">
+      <section className="flex-1 py-12 md:py-24 px-4 sm:px-6 bg-[#F8FAFC]">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
-            <div className="space-y-4">
-              <span className="text-orange-500 font-black uppercase tracking-[0.3em] text-sm block">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6 mb-10 md:mb-16">
+            <div className="space-y-2 md:space-y-4 text-center md:text-left">
+              <span className="text-orange-500 font-black uppercase tracking-[0.2em] md:tracking-[0.3em] text-xs md:text-sm block">
                 Visual Legacy
               </span>
-              <h1 className="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter uppercase italic">
+              <h1 className="text-4xl sm:text-5xl md:text-7xl font-black text-slate-900 tracking-tighter uppercase italic leading-none">
                 Moments in <span className="text-orange-500">Action.</span>
               </h1>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {images.map((img, idx) => (
               <div
                 key={idx}
                 onClick={() => setSelectedImg(img.src)}
-                className="relative group aspect-square overflow-hidden rounded-[2.5rem] bg-slate-200 shadow-lg cursor-pointer transition-all duration-500 hover:shadow-orange-200/50"
+                className="relative group aspect-square overflow-hidden rounded-[1.5rem] md:rounded-[2.5rem] bg-slate-200 shadow-md md:shadow-lg cursor-pointer transition-all duration-500 hover:shadow-orange-200/50"
               >
                 <img
                   src={img.src}
@@ -61,16 +69,16 @@ export default function Gallery() {
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
 
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-8">
-                  <span className="text-orange-500 font-bold uppercase tracking-widest text-[10px] mb-1">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5 md:p-8">
+                  <span className="text-orange-500 font-bold uppercase tracking-widest text-[9px] md:text-[10px] mb-1">
                     {img.category}
                   </span>
-                  <div className="flex justify-between items-center">
-                    <h3 className="text-white text-xl font-black italic uppercase tracking-tight">
+                  <div className="flex justify-between items-center gap-2">
+                    <h3 className="text-white text-lg md:text-xl font-black italic uppercase tracking-tight truncate">
                       {img.title}
                     </h3>
-                    <div className="bg-white/20 backdrop-blur-md p-2.5 rounded-xl text-white">
-                      <Maximize2 size={20} />
+                    <div className="bg-white/20 backdrop-blur-md p-2 rounded-lg md:rounded-xl text-white shrink-0">
+                      <Maximize2 size={18} className="md:w-5 md:h-5" />
                     </div>
                   </div>
                 </div>
@@ -82,23 +90,23 @@ export default function Gallery() {
 
       {selectedImg && (
         <div
-          className="fixed inset-0 z-[999] flex items-center justify-center bg-black/95 backdrop-blur-sm p-4 cursor-zoom-out"
+          className="fixed inset-0 z-[999] flex items-center justify-center bg-black/95 backdrop-blur-sm p-2 sm:p-4 cursor-zoom-out"
           onClick={() => setSelectedImg(null)}
         >
           <button
-            className="absolute top-6 right-6 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-all z-10"
+            className="absolute top-4 right-4 md:top-6 md:right-6 p-2 md:p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-all z-10 active:scale-90"
             onClick={(e) => {
               e.stopPropagation();
               setSelectedImg(null);
             }}
           >
-            <X size={32} />
+            <X size={24} className="md:w-8 md:h-8" />
           </button>
 
           <img
             src={selectedImg}
             alt="Maximized view"
-            className="max-w-full max-h-[90vh] rounded-2xl shadow-2xl transition-all duration-300 transform scale-100"
+            className="max-w-full max-h-[85vh] md:max-h-[90vh] rounded-xl md:rounded-2xl shadow-2xl transition-all duration-300 transform scale-100 object-contain"
             onClick={(e) => e.stopPropagation()}
           />
         </div>

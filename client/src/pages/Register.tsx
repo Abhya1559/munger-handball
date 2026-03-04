@@ -80,68 +80,69 @@ export default function Register() {
     }
   };
   return (
-    <div className="flex min-h-screen">
-      <div className="w-1/2 flex m-4 flex-col items-center justify-center">
-        <div className="mb-6 text-center lg:text-left">
-          {error && (
-            <Alert
-              color="danger"
-              className="top-0 right-1"
-              title={`Login error ${error}`}
-            />
-          )}
-          <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 mb-3">
-            Create Account
-          </h1>
-          <p className="text-gray-500 font-medium">
-            Register for Munger Handball Association
-          </p>
-        </div>
-        <div className="max-w-full flex flex-col gap-4">
+    <div className="flex flex-col lg:flex-row min-h-screen">
+      {/* FORM SECTION */}
+      <div className="w-full lg:w-1/2 flex flex-col items-center justify-center p-4 sm:p-8 md:p-12 lg:p-16">
+        <div className="w-full max-w-xl">
+          <div className="mb-8 text-center lg:text-left">
+            {error && (
+              <Alert
+                color="danger"
+                className="mb-4"
+                title={`Registration error: ${error}`}
+              />
+            )}
+
+            <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-gray-900 mb-3">
+              Create Account
+            </h1>
+
+            <p className="text-gray-500 font-medium">
+              Register for Munger Handball Association
+            </p>
+          </div>
+
           <form
-            action=""
             onSubmit={handleRegister}
-            className="flex flex-col gap-8"
+            className="flex flex-col gap-6 md:gap-8"
           >
-            <div className="flex w-full justify-between items-center space-x-8">
-              <div className="flex  w-full items-start justify-center flex-col">
-                <label htmlFor="" className="font-medium">
-                  Name
-                </label>
+            {/* Name & Email */}
+            <div className="flex flex-col md:flex-row w-full gap-4 md:gap-8">
+              <div className="flex w-full flex-col">
+                <label className="font-medium mb-1">Name</label>
                 <input
                   type="text"
                   name="name"
                   value={form.name}
                   onChange={handleChange}
-                  className="border-2 transition duration-200 focus:outline-none focus:ring-2 focus:ring-orange-400 border-gray-200 px-4 py-2  rounded-lg w-full"
+                  className="border-2 transition duration-200 focus:outline-none focus:ring-2 focus:ring-orange-400 border-gray-200 px-4 py-2 rounded-lg w-full"
                   placeholder="enter your name"
                 />
               </div>
-              <div className="flex flex-col w-full items-start justify-center">
-                <label htmlFor="" className="font-medium">
-                  Email
-                </label>
+
+              <div className="flex w-full flex-col">
+                <label className="font-medium mb-1">Email</label>
                 <input
                   type="email"
                   name="email"
                   value={form.email}
                   onChange={handleChange}
-                  className="border-2 transition duration-200 focus:outline-none focus:ring-2 focus:ring-orange-400 border-gray-200 px-4 py-2  rounded-lg w-full"
+                  className="border-2 transition duration-200 focus:outline-none focus:ring-2 focus:ring-orange-400 border-gray-200 px-4 py-2 rounded-lg w-full"
                   placeholder="enter your email"
                 />
               </div>
             </div>
-            <div className="flex w-full justify-between items-center space-x-8">
-              <div className="flex w-full flex-col gap-1">
-                <label htmlFor="position" className="font-medium">
-                  Position
-                </label>
+
+            {/* Position & Secret Key */}
+            <div className="flex flex-col md:flex-row w-full gap-4 md:gap-8">
+              <div className="flex w-full flex-col">
+                <label className="font-medium mb-1">Position</label>
+
                 <select
                   name="position"
                   value={form.position}
                   onChange={handleChange}
-                  className="border-2 border-gray-200 px-4 py-2 rounded-lg w-full
-             focus:outline-none focus:ring-2 focus:ring-orange-400"
+                  className="border-2 border-gray-200 px-4 py-2 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-orange-400 bg-white"
                 >
                   <option value="">Select position</option>
                   <option value="Goalkeeper">Goalkeeper</option>
@@ -153,133 +154,136 @@ export default function Register() {
                   <option value="Pivot">Pivot</option>
                 </select>
               </div>
-              <div className="flex flex-col w-full items-start justify-center">
-                <label htmlFor="" className="font-medium">
-                  Secret code
-                </label>
+
+              <div className="flex w-full flex-col">
+                <label className="font-medium mb-1">Secret code</label>
+
                 <input
                   type="password"
                   name="secretKey"
                   value={form.secretKey}
                   onChange={handleChange}
-                  className="border-2 transition duration-200 focus:outline-none focus:ring-2 focus:ring-orange-400 border-gray-200 px-4 py-2  rounded-lg w-full"
+                  className="border-2 transition duration-200 focus:outline-none focus:ring-2 focus:ring-orange-400 border-gray-200 px-4 py-2 rounded-lg w-full"
                   placeholder="enter secret code"
                 />
               </div>
             </div>
-            <div className="flex w-full items-center justify-center space-x-8">
-              <div className="flex flex-col w-full items-start justify-center">
-                <label htmlFor="" className="font-medium">
-                  House Number
-                </label>
+
+            {/* Address */}
+            <div className="flex flex-col md:flex-row w-full gap-4 md:gap-8">
+              <div className="flex flex-col w-full">
+                <label className="font-medium mb-1">House Number</label>
+
                 <input
                   type="text"
                   name="address.house"
                   value={form.address.house}
                   onChange={handleChange}
-                  className="border-2 transition duration-200 focus:outline-none focus:ring-2 focus:ring-orange-400 border-gray-200 px-4 py-2  rounded-lg w-full"
-                  placeholder="enter House number"
+                  className="border-2 transition duration-200 focus:outline-none focus:ring-2 focus:ring-orange-400 border-gray-200 px-4 py-2 rounded-lg w-full"
+                  placeholder="House #"
                 />
               </div>
-              <div className="flex flex-col w-full items-start justify-center">
-                <label htmlFor="" className="font-medium">
-                  Mohalla
-                </label>
+
+              <div className="flex flex-col w-full">
+                <label className="font-medium mb-1">Mohalla</label>
+
                 <input
                   type="text"
                   name="address.mohalla"
                   value={form.address.mohalla}
                   onChange={handleChange}
-                  className="border-2 transition duration-200 focus:outline-none focus:ring-2 focus:ring-orange-400 border-gray-200 px-4 py-2  rounded-lg w-full"
-                  placeholder="enter Mohalla"
+                  className="border-2 transition duration-200 focus:outline-none focus:ring-2 focus:ring-orange-400 border-gray-200 px-4 py-2 rounded-lg w-full"
+                  placeholder="Mohalla"
                 />
-              </div>{" "}
-              <div className="flex flex-col w-full items-start justify-center">
-                <label htmlFor="" className="font-medium">
-                  Landmark
-                </label>
+              </div>
+
+              <div className="flex flex-col w-full">
+                <label className="font-medium mb-1">Landmark</label>
+
                 <input
                   type="text"
                   name="address.landmark"
                   value={form.address.landmark}
                   onChange={handleChange}
-                  className="border-2 transition duration-200 focus:outline-none focus:ring-2 focus:ring-orange-400 border-gray-200 px-4 py-2  rounded-lg w-full"
-                  placeholder="enter landmark"
+                  className="border-2 transition duration-200 focus:outline-none focus:ring-2 focus:ring-orange-400 border-gray-200 px-4 py-2 rounded-lg w-full"
+                  placeholder="Landmark"
                 />
               </div>
             </div>
-            <div className="flex flex-col justify-center space-y-6 w-full">
-              <div className="flex flex-col w-full items-start justify-center">
-                <label htmlFor="" className="font-medium">
-                  Aadhar Number
-                </label>
-                <input
-                  type="text"
-                  name="aadhar"
-                  value={form.aadhar}
-                  onChange={handleChange}
-                  className="border-2 transition duration-200 focus:outline-none focus:ring-2 focus:ring-orange-400 border-gray-200 px-4 py-2  rounded-lg w-full"
-                  placeholder="XXXX XXXX XXXX"
-                />
-              </div>
-              <div className="flex flex-col w-full items-start justify-center">
-                <label htmlFor="" className="font-medium">
-                  Password
-                </label>
-                <input
-                  type="password"
-                  name="password"
-                  value={form.password}
-                  onChange={handleChange}
-                  className="border-2 transition duration-200 focus:outline-none focus:ring-2 focus:ring-orange-400 border-gray-200 px-4 py-2  rounded-lg w-full"
-                  placeholder="enter password"
-                />
-              </div>
-              <div className="flex flex-col w-full items-start justify-center">
-                <label htmlFor="" className="font-medium">
-                  Confirm Password
-                </label>
-                <input
-                  type="password"
-                  name="confirmPassword"
-                  value={form.confirmPassword}
-                  onChange={handleChange}
-                  className="border-2 transition duration-200 focus:outline-none focus:ring-2 focus:ring-orange-400 border-gray-200 px-4 py-2  rounded-lg w-full"
-                  placeholder="enter password"
-                />
-              </div>
+
+            {/* Aadhar */}
+            <div className="flex flex-col w-full">
+              <label className="font-medium mb-1">Aadhar Number</label>
+
+              <input
+                type="text"
+                name="aadhar"
+                value={form.aadhar}
+                onChange={handleChange}
+                className="border-2 transition duration-200 focus:outline-none focus:ring-2 focus:ring-orange-400 border-gray-200 px-4 py-2 rounded-lg w-full"
+                placeholder="XXXX XXXX XXXX"
+              />
             </div>
-            <div className="flex flex-col justify-center items-center w-full space-y-8">
-              <div className="flex flex-col space-y-4 w-full">
-                <Button
-                  type="submit"
-                  className="w-full mt-2 h-11 transition duration-200 bg-orange-400 text-white font-semibold"
-                >
-                  {loading ? "Loading..." : "Register"}
-                </Button>{" "}
-                <Button
-                  className="w-full h-11 mb-5 flex items-center justify-center gap-2
-                             border border-gray-300 bg-transparent
-                            rounded-lg font-semibold text-gray-500"
-                >
-                  <FcGoogle className="text-lg" />
-                  <span>Login with Google</span>
-                </Button>
-                <h1 className="text-gray-400 mt-2 cursor-pointer flex justify-center items-center">
-                  Already have an account?{" "}
-                  <Link href="/login" className="text-orange-400 ml-2">
-                    Login
-                  </Link>
-                </h1>
-              </div>
+
+            {/* Password */}
+            <div className="flex flex-col w-full">
+              <label className="font-medium mb-1">Password</label>
+
+              <input
+                type="password"
+                name="password"
+                value={form.password}
+                onChange={handleChange}
+                className="border-2 transition duration-200 focus:outline-none focus:ring-2 focus:ring-orange-400 border-gray-200 px-4 py-2 rounded-lg w-full"
+                placeholder="enter password"
+              />
+            </div>
+
+            {/* Confirm Password */}
+            <div className="flex flex-col w-full">
+              <label className="font-medium mb-1">Confirm Password</label>
+
+              <input
+                type="password"
+                name="confirmPassword"
+                value={form.confirmPassword}
+                onChange={handleChange}
+                className="border-2 transition duration-200 focus:outline-none focus:ring-2 focus:ring-orange-400 border-gray-200 px-4 py-2 rounded-lg w-full"
+                placeholder="confirm password"
+              />
+            </div>
+
+            {/* Buttons */}
+            <div className="flex flex-col space-y-4 w-full mt-4">
+              <Button
+                type="submit"
+                isLoading={loading}
+                className="w-full h-12 bg-orange-400 text-white font-bold rounded-lg shadow-md hover:bg-orange-500 transition-all"
+              >
+                {loading ? "Creating Account..." : "Register"}
+              </Button>
+
+              <Button className="w-full h-12 flex items-center justify-center gap-2 border border-gray-300 bg-white rounded-lg font-semibold text-gray-600 hover:bg-gray-50 transition-all">
+                <FcGoogle className="text-xl" />
+                <span>Sign up with Google</span>
+              </Button>
+
+              <p className="text-gray-400 text-center mt-2">
+                Already have an account?{" "}
+                <Link href="/login" className="text-orange-400 font-bold ml-1">
+                  Login
+                </Link>
+              </p>
             </div>
           </form>
         </div>
       </div>
-      <div className="w-1/2 h-screen overflow-hidden">
+
+      {/* IMAGE SECTION */}
+      <div className="hidden lg:block lg:w-1/2 h-screen sticky top-0">
         <img
           src={handball}
-          alt="login-image"
+          alt="handball-player"
           className="w-full h-full object-cover"
         />
       </div>
