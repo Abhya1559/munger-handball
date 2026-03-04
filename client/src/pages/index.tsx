@@ -1,9 +1,14 @@
-import DefaultLayout from "@/layouts/default";
+import Footer from "@/components/Footer";
+import Landing from "@/components/Landing";
+import { Navbar } from "@/components/navbar";
+// import DefaultLayout from "@/layouts/default";
 
 export default function IndexPage() {
   return (
-    <DefaultLayout>
-      <h1 className="flex items-center justify-center">Hello</h1>
-    </DefaultLayout>
+    <div className="flex flex-col">
+      <Navbar />
+      <Landing />
+      <Footer />
+    </div>
   );
 }
