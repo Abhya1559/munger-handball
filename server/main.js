@@ -15,6 +15,9 @@ app.use(
     credentials: true,
   }),
 );
+app.get("/", (req, res) => {
+  res.send("Server running");
+});
 app.use("/api/players", playerRoute);
 app.use("/api", profileRoute);
 
