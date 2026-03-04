@@ -26,8 +26,8 @@ api.interceptors.response.use(
     if (
       error.response?.status === 401 &&
       !(originalRequest as any)._retry &&
-      !originalRequest.url.includes("/api/players/login") &&
-      !originalRequest.url.includes("/api/players/refresh")
+      !originalRequest.url.includes("/players/login") &&
+      !originalRequest.url.includes("/players/refresh")
     ) {
       (originalRequest as any)._retry = true;
 
@@ -43,7 +43,7 @@ api.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        await api.post("/refresh");
+        await api.post("/players/refresh");
         processQueue(null);
         return api(originalRequest);
       } catch (err) {
