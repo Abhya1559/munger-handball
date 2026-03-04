@@ -8,7 +8,6 @@ import {
   Facebook,
   Twitter,
   Youtube,
-  ChevronRight,
   ArrowUpCircle,
 } from "lucide-react";
 import { Button } from "@heroui/button";
