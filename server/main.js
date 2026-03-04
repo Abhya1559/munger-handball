@@ -11,13 +11,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "https://munger-handball.vercel.app",
+    // origin: "https://munger-handball.vercel.app",
+    origin: "*",
     credentials: true,
   }),
 );
-app.get("/", (req, res) => {
-  res.send("Server running");
-});
+
 app.use("/players", playerRoute);
 app.use("/profile", profileRoute);
 
