@@ -7,6 +7,7 @@ import {
 import jwt from "jsonwebtoken";
 import { generateAccessToken, generateRefreshToken } from "../utils/token.js";
 import nodemailer from "nodemailer";
+import { sendEmail } from "../lib/sendMail.js";
 
 export const register = async (req, res) => {
   try {
@@ -174,22 +175,22 @@ export const requestPasswordReset = async (req, res) => {
 
     const resetURL = `${process.env.FRONTEND_URL}/reset-password/${user._id}/${token}`;
 
-    const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 587,
-      secure: false,
-      family: 4,
-      connectionTimeout: 8000,
-      auth: {
-        user: process.env.EMAIL,
-        pass: process.env.EMAIL_PASSWORD,
-      },
-      tls: { rejectUnauthorized: false },
-      pool: true,
-    });
-    const mailOptions = {
+    // const transporter = nodemailer.createTransport({
+    //   host: "smtp.gmail.com",
+    //   port: 587,
+    //   secure: false,
+    //   family: 4,
+    //   connectionTimeout: 8000,
+    //   auth: {
+    //     user: process.env.EMAIL,
+    //     pass: process.env.EMAIL_PASSWORD,
+    //   },
+    //   tls: { rejectUnauthorized: false },
+    //   pool: true,
+    // });
+
+    await sendEmail({
       to: user.email,
-      from: `"Support Team" <${process.env.EMAIL}>`,
       subject: "Password Reset Instructions",
       html: `
         <!DOCTYPE html>
@@ -245,9 +246,9 @@ export const requestPasswordReset = async (req, res) => {
           </body>
         </html>
       `,
-    };
+    });
 
-    await transporter.sendMail(mailOptions);
+    // await transporter.sendMail(mailOptions);
     res.status(200).json({ message: "Password reset link sent" });
   } catch (error) {
     console.error("PASSWORD RESET ERROR:", error);
