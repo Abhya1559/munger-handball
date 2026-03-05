@@ -19,7 +19,7 @@ import {
 import book from "@/assets/Book.pdf";
 import book1 from "@/assets/Book1.pdf";
 import book2 from "@/assets/book2.pdf";
-import book3 from "@/assets/score-sheet.pdf";
+import score from "@/assets/score-sheet.pdf";
 // 1. Update this array with your actual PDF paths
 const rules = [
   {
@@ -56,7 +56,7 @@ const rules = [
     version: "v2.1",
     updatedAt: new Date().toLocaleDateString("en-GB"),
     status: "Updated",
-    fileUrl: book3,
+    fileUrl: score,
   },
 ];
 
