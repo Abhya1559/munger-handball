@@ -178,11 +178,13 @@ export const requestPasswordReset = async (req, res) => {
       host: "smtp.gmail.com",
       port: 587,
       secure: false,
+      family: 4,
       connectionTimeout: 8000,
       auth: {
         user: process.env.EMAIL,
         pass: process.env.EMAIL_PASSWORD,
       },
+      tls: { rejectUnauthorized: false },
       pool: true,
     });
     const mailOptions = {
