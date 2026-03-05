@@ -5,7 +5,6 @@ import {
   FileText,
   Eye,
   Filter,
-  X,
 } from "lucide-react";
 import { Button } from "@heroui/button";
 import { useState } from "react";
