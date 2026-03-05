@@ -65,12 +65,19 @@ export default function RuleBook() {
   const [selectedFile, setSelectedFile] = useState<(typeof rules)[0] | null>(
     null,
   );
-
+  const [query, setQuery] = useState<string>("");
   const handleViewPdf = (rule: (typeof rules)[0]) => {
     setSelectedFile(rule);
     onOpen();
   };
 
+  const handleChange = (e: any) => {
+    setQuery(e.target.value.toLowerCase());
+  };
+
+  const findBook = rules.filter((item) => {
+    return item.title.toLocaleLowerCase().includes(query);
+  });
   return (
     <div className="min-h-screen bg-[#F8FAFC] p-4 md:p-12">
       <div className="max-w-6xl mx-auto">
@@ -95,6 +102,8 @@ export default function RuleBook() {
               />
               <input
                 type="text"
+                value={query}
+                onChange={handleChange}
                 placeholder="Search rules..."
                 className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-400 transition-all text-sm"
               />
@@ -131,7 +140,7 @@ export default function RuleBook() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-50">
-                {rules.map((rule) => (
+                {findBook.map((rule) => (
                   <tr
                     key={rule.id}
                     className="group hover:bg-slate-50/80 transition-colors"
