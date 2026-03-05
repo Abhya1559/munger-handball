@@ -14,6 +14,7 @@ import Notifications from "./pages/Notifications";
 import About from "./pages/About";
 import Gallery from "./pages/Gallery";
 import Contact from "./pages/Contact";
+import RuleBook from "./pages/RuleBooks";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         path="/login"
       />
       <Route element={<Register />} path="/register" />
+      <Route element={<RuleBook />} path="/rule" />
       <Route element={<ForgotPassword />} path="/forgot-password" />
       <Route element={<ResetPassword />} path="/reset-password/:id/:token" />
       <Route
