@@ -30,11 +30,11 @@ export const register = async (req, res) => {
         .status(400)
         .json({ message: "User already exist . Please Login" });
     }
-    const hashPassword = await bcrypt.hash(password, 10);
+    // const hashPassword = await bcrypt.hash(password, 10);
     const player = await Player.create({
       name,
       email,
-      password: hashPassword,
+      password,
       aadhar,
       address,
       position,
