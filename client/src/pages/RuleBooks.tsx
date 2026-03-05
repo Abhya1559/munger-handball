@@ -17,6 +17,8 @@ import {
   useDisclosure,
 } from "@heroui/modal";
 import book from "@/assets/Book.pdf";
+import book1 from "@/assets/Book1.pdf";
+import book2 from "@/assets/book2.pdf";
 // 1. Update this array with your actual PDF paths
 const rules = [
   {
@@ -30,12 +32,12 @@ const rules = [
   },
   {
     id: 2,
-    title: "Tournament Conduct Policy",
+    title: "AN INTRODUCTION TO SPORTS ETHICS",
     category: "Ethics",
     version: "v1.0",
     updatedAt: "Jan 05, 2026",
     status: "Active",
-    fileUrl: "/pdfs/conduct-policy.pdf",
+    fileUrl: book1,
   },
   {
     id: 3,
@@ -44,7 +46,7 @@ const rules = [
     version: "v2.1",
     updatedAt: "Mar 20, 2026",
     status: "Updated",
-    fileUrl: "/pdfs/equipment-standards.pdf",
+    fileUrl: book2,
   },
 ];
 
@@ -96,8 +98,6 @@ export default function RuleBook() {
             </Button>
           </div>
         </div>
-
-        {/* Table Container */}
         <div className="bg-white rounded-[2rem] border border-slate-100 shadow-sm overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
