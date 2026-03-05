@@ -12,4 +12,4 @@ export const resetPassword = (
   data: { password: string },
 ) => api.post(`/players/resetpassword/${id}/${token}`, data);
 export const logout = () => api.post("/players/logout");
-export const profile = () => api.get("/profile");
+export const profile = () => api.get("/players/profile");

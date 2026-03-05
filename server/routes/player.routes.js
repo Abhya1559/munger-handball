@@ -10,6 +10,8 @@ import {
 } from "../controllers/playerAuth.controller.js";
 import { authMiddleware } from "../middlewares/auth.middleware.js";
 
+import { profile } from "../controllers/playerProfile.controller.js";
+
 const router = express();
 
 router.post("/register", register);
@@ -19,4 +21,5 @@ router.post("/logout", logout);
 router.get("/me", authMiddleware, getMe);
 router.post("/requestPasswordReset", requestPasswordReset);
 router.post("/resetpassword/:id/:token", resetPassword);
+router.get("/profile", authMiddleware, profile);
 export default router;
