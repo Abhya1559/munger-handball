@@ -7,7 +7,7 @@ import {
   Filter,
 } from "lucide-react";
 import { Button } from "@heroui/button";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   Modal,
   ModalContent,
@@ -75,9 +75,11 @@ export default function RuleBook() {
     setQuery(e.target.value.toLowerCase());
   };
 
-  const findBook = rules.filter((item) => {
-    return item.title.toLocaleLowerCase().includes(query);
-  });
+  const findBook = useMemo(() => {
+    return rules.filter((item) => {
+      return item.title.toLocaleLowerCase().includes(query);
+    });
+  }, [query, rules]);
   return (
     <div className="min-h-screen bg-[#F8FAFC] p-4 md:p-12">
       <div className="max-w-6xl mx-auto">
