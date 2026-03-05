@@ -25,7 +25,6 @@ export const register = async (req, res) => {
     }
 
     const existingUser = await Player.findOne({ email });
-    console.log(existingUser);
     if (existingUser) {
       return res
         .status(400)
@@ -40,7 +39,6 @@ export const register = async (req, res) => {
       address,
       position,
     });
-    console.log(hashPassword);
     return res.status(201).json({
       message: "User registered successfully",
       player: {

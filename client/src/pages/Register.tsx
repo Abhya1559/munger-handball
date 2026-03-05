@@ -74,6 +74,7 @@ export default function Register() {
       await register(payload);
       navigate("/login");
     } catch (err: any) {
+      console.log(err);
       setError(err.response?.data?.message || "Registration failed");
     } finally {
       setLoading(false);
@@ -279,7 +280,6 @@ export default function Register() {
         </div>
       </div>
 
-      {/* IMAGE SECTION */}
       <div className="hidden lg:block lg:w-1/2 h-screen sticky top-0">
         <img
           src={handball}
